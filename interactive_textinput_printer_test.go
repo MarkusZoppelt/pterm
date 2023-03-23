@@ -28,3 +28,8 @@ func TestInteractiveTextInputPrinter_WithTextStyle(t *testing.T) {
 	p := pterm.DefaultInteractiveTextInput.WithTextStyle(style)
 	testza.AssertEqual(t, p.TextStyle, style)
 }
+
+func TestInteractiveTextInputPrinter_WithMask(t *testing.T) {
+	p := pterm.DefaultInteractiveTextInput.WithMask("*")
+	testza.AssertEqual(t, p.Mask, "*")
+}
