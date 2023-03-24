@@ -3,6 +3,8 @@ package pterm_test
 import (
 	"testing"
 
+	"atomicgo.dev/keyboard"
+	"atomicgo.dev/keyboard/keys"
 	"github.com/MarvinJWendt/testza"
 
 	"github.com/pterm/pterm"
@@ -32,4 +34,19 @@ func TestInteractiveTextInputPrinter_WithTextStyle(t *testing.T) {
 func TestInteractiveTextInputPrinter_WithMask(t *testing.T) {
 	p := pterm.DefaultInteractiveTextInput.WithMask("*")
 	testza.AssertEqual(t, p.Mask, "*")
+}
+
+func TestInteractiveTextInputPrinter_WithMask_show(t *testing.T) {
+	p := pterm.DefaultInteractiveTextInput.WithMask("*")
+
+	go func() {
+		keyboard.SimulateKeyPress('a')
+		keyboard.SimulateKeyPress('b')
+		keyboard.SimulateKeyPress('c')
+		keyboard.SimulateKeyPress(keys.Enter)
+	}()
+
+	result, _ := p.Show()
+
+	testza.AssertEqual(t, result, "abc")
 }
